@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<div>Live Logs</div>
+
+<pre id="logs"></pre>
+
+@section Scripts {
+    <script>    
+    async function pull() {
+        let resp = await fetch('/Logs');
+
+        if (resp.ok) {
+          let logs = await resp.text();
+          document.getElementById('logs').textContent = logs;
+        }
+        setTimeout(pull, 50);
+    }
+    pull();
+    </script>
+}
