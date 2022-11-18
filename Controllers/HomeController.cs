@@ -24,7 +24,9 @@ namespace LogWatcher.Controllers
         public async Task<IActionResult> Logs()
         {
             // make call to backend UDP log server
-            var resp = await (new System.Net.Http.HttpClient()).GetStringAsync("http://127.0.0.1:8080/");
+            string backendHost = System.Environment.GetEnvironmentVariable("LOG_SERVER");
+            if (string.IsNullOrEmpty(backendHost)) backendHost = "127.0.0.1:8080";
+            var resp = await (new System.Net.Http.HttpClient()).GetStringAsync($"http://{backendHost}/");
             return new ContentResult() { Content = resp, ContentType = "text/plain" };
         }
 
